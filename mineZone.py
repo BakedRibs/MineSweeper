@@ -7,9 +7,16 @@ class mineZone(QWidget):
         self.Init_UI()
         
     def Init_UI(self):
-        single = singleBox()
+        single = singleBox(9)
+        single2 = singleBox(9)
+        single3 = singleBox(9)
+        single4 = singleBox(9)
         
         mainLayout = QGridLayout()
         mainLayout.addWidget(single, 0, 0)
+        mainLayout.addWidget(single2, 0, 1)
+        mainLayout.addWidget(single3, 1, 0)
+        mainLayout.addWidget(single4, 1, 1)
+        mainLayout.setSpacing(0)
         
         self.setLayout(mainLayout)
