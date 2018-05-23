@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QApplication
-from mineZone import mineZone
+from mineField import mineField
 
 class MineSweeper(QWidget):
     def __init__(self):
@@ -8,9 +8,9 @@ class MineSweeper(QWidget):
         self.Init_UI()
         
     def Init_UI(self):
-        mineField = mineZone()
+        field = mineField()
         mainLayout = QVBoxLayout()
-        mainLayout.addWidget(mineField)
+        mainLayout.addWidget(field)
         
         self.setLayout(mainLayout)
         self.show()

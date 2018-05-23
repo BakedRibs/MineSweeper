@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project MineSweeper -->
-<!-- Saved: 2018-05-21, 18:25:56 -->
+<!-- Saved: 2018-05-23, 19:55:44 -->
 <!-- Copyright (C) 2018 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -14,8 +14,8 @@
   <Eol index="0"/>
   <Sources>
     <Source>__init__.py</Source>
-    <Source>mineZone.py</Source>
-    <Source>singleBox.py</Source>
+    <Source>mineField.py</Source>
+    <Source>singleField.py</Source>
   </Sources>
   <Forms/>
   <Translations/>
