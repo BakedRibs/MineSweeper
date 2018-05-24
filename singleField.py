@@ -18,4 +18,6 @@ class singleField(QToolButton):
                                   "QToolButton:hover{background-color:#000000;}")
                                   
     def buttonClicked(self):
-        pass
+        self.setIcon(QIcon(os.getcwd()+"/images/"+str(self.fieldType)+".png"))
+        self.setIconSize(QSize(20, 20))
+        self.setEnabled(False)
