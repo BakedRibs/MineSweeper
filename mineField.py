@@ -52,4 +52,14 @@ class mineField(QWidget):
         for mine in self.minePos:
             self.numberMatrix[mine[0]][mine[1]] = 9
             
-        asd = 0
+        for i in range(self.rowCount):
+            for j in range(self.columnCount):
+                if self.numberMatrix[i][j] != 9:
+                    count = 0
+                    for p in (-1, 0, 1):
+                        for q in (-1, 0, 1):
+                            if i+p >= 0 and i+p < self.rowCount and j+q >= 0 and j+q < self.columnCount:
+                                if self.numberMatrix[i+p][j+q] == 9:
+                                    count += 1
+                    self.numberMatrix[i][j] = count
+        asd = 1
