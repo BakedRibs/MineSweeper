@@ -1,3 +1,4 @@
+import random
 from PyQt5.QtWidgets import QWidget, QGridLayout
 from functools import partial
 from singleField import singleField
@@ -10,6 +11,9 @@ class mineField(QWidget):
     def Init_UI(self):
         self.rowCount = 10
         self.columnCount = 12
+        self.mineCount = 20
+        
+        self.matrixInitiate()
         self.fieldMatrix = []
         for i in range(self.rowCount):
             self.fieldMatrix.append([])
@@ -31,3 +35,21 @@ class mineField(QWidget):
         
     def singleFieldClicked(self, i, j):
         self.fieldMatrix[i][j].buttonClicked()
+        
+    def matrixInitiate(self):
+        self.numberMatrix = []
+        for i in range(self.rowCount):
+            self.numberMatrix.append([])
+            for j in range(self.columnCount):
+                self.numberMatrix[i].append(0)
+                
+        self.minePos = []
+        while len(self.minePos) < 20:
+            newMine = (random.randint(0, self.rowCount-1), random.randint(0, self.columnCount-1))
+            if newMine not in self.minePos:
+                self.minePos.append(newMine)
+                
+        for mine in self.minePos:
+            self.numberMatrix[mine[0]][mine[1]] = 9
+            
+        asd = 0
