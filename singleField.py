@@ -4,7 +4,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt, pyqtSignal
 
 class singleField(QToolButton):
-    clickSignal = pyqtSignal(int, int, str)
+    clickSignal = pyqtSignal(int, int, int)
     def __init__(self, type, x, y):
         super().__init__()
         self.Init_UI(type, x, y)
@@ -27,15 +27,13 @@ class singleField(QToolButton):
         if self.fieldType == 9:
             self.setIcon(QIcon(os.getcwd()+"/images/whiteMine.png"))
             self.setIconSize(QSize(20, 20))
-            self.clickSignal.emit(self.x, self.y, 'mine')
         elif self.fieldType == 0:
             self.setIcon(QIcon(os.getcwd()+"/images/blank.png"))
             self.setIconSize(QSize(20, 20))
-            self.clickSignal.emit(self.x, self.y, 'blank')
         else:
             self.setIcon(QIcon(os.getcwd()+"/images/"+str(self.fieldType)+".png"))
             self.setIconSize(QSize(20, 20))
-            self.clickSignal.emit(self.x, self.y, 'number')
+        self.clickSignal.emit(self.x, self.y, self.fieldType)
         
     def rightButtonClicked(self):
         pass
