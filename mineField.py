@@ -1,6 +1,5 @@
 import random
 from PyQt5.QtWidgets import QWidget, QGridLayout
-from functools import partial
 from singleField import singleField
 
 class mineField(QWidget):
@@ -14,12 +13,6 @@ class mineField(QWidget):
         self.mineCount = 20
         
         self.matrixInitiate()
-        self.fieldMatrix = []
-        for i in range(self.rowCount):
-            self.fieldMatrix.append([])
-            for j in range(self.columnCount):
-                field = singleField(1)
-                self.fieldMatrix[i].append(field)
         
         mainLayout = QGridLayout()
         for i in range(self.rowCount):
@@ -28,13 +21,6 @@ class mineField(QWidget):
         mainLayout.setSpacing(0)
         
         self.setLayout(mainLayout)
-        
-        for i in range(self.rowCount):
-            for j in range(self.columnCount):
-                self.fieldMatrix[i][j].clicked.connect(partial(self.singleFieldClicked, i, j))
-        
-    def singleFieldClicked(self, i, j):
-        self.fieldMatrix[i][j].buttonClicked()
         
     def matrixInitiate(self):
         self.numberMatrix = []
@@ -62,4 +48,10 @@ class mineField(QWidget):
                                 if self.numberMatrix[i+p][j+q] == 9:
                                     count += 1
                     self.numberMatrix[i][j] = count
-        asd = 1
+        
+        self.fieldMatrix = []
+        for i in range(self.rowCount):
+            self.fieldMatrix.append([])
+            for j in range(self.columnCount):
+                field = singleField(self.numberMatrix[i][j], i, j)
+                self.fieldMatrix[i].append(field)

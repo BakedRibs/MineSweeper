@@ -1,15 +1,20 @@
 import os
 from PyQt5.QtWidgets import QToolButton
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QSize
+from PyQt5.QtCore import QSize, Qt
 
 class singleField(QToolButton):
-    def __init__(self, type):
+    def __init__(self, type, x, y):
         super().__init__()
-        self.Init_UI(type)
+        self.Init_UI(type, x, y)
         
-    def Init_UI(self, type):
+    def Init_UI(self, type, x, y):
         self.fieldType = type
+        self.x = x
+        self.y = y
+        self.leftDown = False
+        self.rightDown = False
+        self.bothDown = False
         self.setIcon(QIcon(os.getcwd()+"/images/cover.png"))
         self.setIconSize(QSize(20, 20))
         self.setFixedSize(QSize(20, 20))
@@ -17,7 +22,40 @@ class singleField(QToolButton):
                             border:1px groove gray;}"\
                                   "QToolButton:hover{background-color:#000000;}")
                                   
-    def buttonClicked(self):
+    def leftButtonClicked(self):
         self.setIcon(QIcon(os.getcwd()+"/images/"+str(self.fieldType)+".png"))
         self.setIconSize(QSize(20, 20))
-        self.setEnabled(False)
+        
+    def rightButtonClicked(self):
+        pass
+        
+    def bothButtonClicked(self):
+        pass
+        
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            if self.bothDown == True:
+                if self.rightDown == False:
+                    self.bothButtonClicked()
+                    self.bothDown = False
+            else:
+                self.leftButtonClicked()
+            self.leftDown = False
+        if event.button() == Qt.RightButton:
+            if self.bothDown == True:
+                if self.leftDown == False:
+                    self.bothButtonClicked()
+                    self.bothDown = False
+            else:
+                self.rightButtonClicked()
+            self.rightDown = False
+            
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.leftDown = True
+            if self.rightDown == True:
+                self.bothDown = True
+        if event.button() == Qt.RightButton:
+            self.rightDown = True
+            if self.leftDown == True:
+                self.bothDown = True
