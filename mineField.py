@@ -8,8 +8,8 @@ class mineField(QWidget):
         self.Init_UI()
         
     def Init_UI(self):
-        self.rowCount = 10
-        self.columnCount = 12
+        self.rowCount = 16
+        self.columnCount = 20
         self.mineCount = 20
         
         self.matrixInitiate()
@@ -21,6 +21,13 @@ class mineField(QWidget):
         mainLayout.setSpacing(0)
         
         self.setLayout(mainLayout)
+        
+        for i in range(self.rowCount):
+            for j in range(self.columnCount):
+                self.fieldMatrix[i][j].clickSignal.connect(self.leftButtonClicked)
+        
+    def leftButtonClicked(self, x, y, type):
+        pass
         
     def matrixInitiate(self):
         self.numberMatrix = []
