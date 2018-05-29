@@ -24,9 +24,13 @@ class mineField(QWidget):
         
         for i in range(self.rowCount):
             for j in range(self.columnCount):
-                self.fieldMatrix[i][j].clickSignal.connect(self.leftButtonClicked)
+                self.fieldMatrix[i][j].leftClickSignal.connect(self.leftButtonClicked)
+                self.fieldMatrix[i][j].rightClickSignal.connect(self.rightButtonClicked)
         
     def leftButtonClicked(self, x, y, type):
+        pass
+        
+    def rightButtonClicked(self, x, y, type):
         pass
         
     def matrixInitiate(self):
