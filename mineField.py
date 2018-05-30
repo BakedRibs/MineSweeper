@@ -32,13 +32,21 @@ class mineField(QWidget):
         if type == 9:
             pass
         elif type == 0:
-            blankMap = []
-            for i in range(self.rowCount):
-                blankMap.append([])
-                for j in range(self.columnCount):
-                    blankMap[i].append(0)
-            blankMap[x][y] = 1
-            self.showAllConnectedBlank(x, y, blankMap)
+            if self.shown[x][y] == 0:
+                blankMap = []
+                self.shown[x][y] = 1
+                for i in range(self.rowCount):
+                    blankMap.append([])
+                    for j in range(self.columnCount):
+                        blankMap[i].append(0)
+                blankMap[x][y] = 1
+                self.findAllConnectedBlank(x, y, blankMap)
+                for i in range(self.rowCount):
+                    for j in range(self.columnCount):
+                        if blankMap[i][j] == 1:
+                            if self.shown[i][j] == 0:
+                                self.fieldMatrix[i][j].showButtonSelf()
+                                self.shown[i][j] = 1
         else:
             pass
         
@@ -48,18 +56,24 @@ class mineField(QWidget):
     def bothButtonClicked(self, x, y, type):
         pass
         
-    def showAllConnectedBlank(self, x, y, blankMap):
+    def findAllConnectedBlank(self, x, y, blankMap):
         for i in [-1, 0, 1]:
             for j in [-1, 0, 1]:
-                if blankMap[x+1][y+j] == 0:
-                    pass
+                if 0 <= x+i and x+i < self.rowCount and 0 <= y+j and y+j < self.columnCount:
+                    if blankMap[x+i][y+j] == 0:
+                        if self.numberMatrix[x+i][y+j] == 0:
+                            blankMap[x+i][y+j] = 1
+                            self.findAllConnectedBlank(x+i, y+j, blankMap)
         
     def matrixInitiate(self):
         self.numberMatrix = []
+        self.shown = []
         for i in range(self.rowCount):
             self.numberMatrix.append([])
+            self.shown.append([])
             for j in range(self.columnCount):
                 self.numberMatrix[i].append(0)
+                self.shown[i].append(0)
                 
         self.minePos = []
         while len(self.minePos) < 20:

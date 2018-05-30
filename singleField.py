@@ -12,6 +12,7 @@ class singleField(QToolButton):
         self.Init_UI(type, x, y)
         
     def Init_UI(self, type, x, y):
+        self.shown = False
         self.fieldType = type
         self.fieldStatus = 'cover'
         self.x = x
@@ -85,3 +86,13 @@ class singleField(QToolButton):
             self.rightDown = True
             if self.leftDown == True:
                 self.bothDown = True
+                
+    def showButtonSelf(self):
+        if self.shown == False:
+            if self.fieldType == 0:
+                self.setIcon(QIcon(os.getcwd()+"/images/blank.png"))
+                self.setIconSize(QSize(20, 20))
+            if 0 < self.fieldType and self.fieldType < 9:
+                self.setIcon(QIcon(os.getcwd()+"/images/"+str(self.fieldType)+".png"))
+                self.setIconSize(QSize(20, 20))
+        self.shown = True
