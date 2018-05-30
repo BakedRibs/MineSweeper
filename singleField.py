@@ -6,6 +6,7 @@ from PyQt5.QtCore import QSize, Qt, pyqtSignal
 class singleField(QToolButton):
     leftClickSignal = pyqtSignal(int, int, int)
     rightClickSignal = pyqtSignal(int, int, int)
+    bothClickSignal = pyqtSignal(int, int, int)
     def __init__(self, type, x, y):
         super().__init__()
         self.Init_UI(type, x, y)
@@ -55,7 +56,7 @@ class singleField(QToolButton):
             self.rightClickSignal.emit(self.x, self.y, 12)
         
     def bothButtonClicked(self):
-        self.clickSignal.emit(self.x, self.y, 99)
+        self.bothClickSignal.emit(self.x, self.y, 99)
         
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
