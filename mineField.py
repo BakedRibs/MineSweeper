@@ -44,11 +44,14 @@ class mineField(QWidget):
                 for i in range(self.rowCount):
                     for j in range(self.columnCount):
                         if blankMap[i][j] == 1:
-                            if self.shown[i][j] == 0:
-                                self.fieldMatrix[i][j].showButtonSelf()
-                                self.shown[i][j] = 1
+                            for p in [-1, 0, 1]:
+                                for q in [-1, 0, 1]:
+                                    if 0 <= i+p and i+p < self.rowCount and 0 <= j+q and j+q < self.columnCount:
+                                        if self.shown[i+p][j+q] == 0:
+                                            self.fieldMatrix[i+p][j+q].showButtonSelf()
+                                            self.shown[i+p][j+q] = 1
         else:
-            pass
+            self.shown[x][y] = 1
         
     def rightButtonClicked(self, x, y, type):
         pass
