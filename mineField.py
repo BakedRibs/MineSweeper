@@ -30,7 +30,13 @@ class mineField(QWidget):
         
     def leftButtonClicked(self, x, y, type):
         if type == 9:
-            pass
+            self.shown[x][y] = 1
+            for i in range(self.rowCount):
+                for j in range(self.columnCount):
+                    if self.numberMatrix[i][j] == 9:
+                        if self.shown[i][j] == 0:
+                            self.fieldMatrix[i][j].showButtonSelf()
+                            self.shown[i][j] = 1
         elif type == 0:
             if self.shown[x][y] == 0:
                 blankMap = []

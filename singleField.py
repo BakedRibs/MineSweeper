@@ -29,7 +29,7 @@ class singleField(QToolButton):
                                   
     def leftButtonClicked(self):
         if self.fieldType == 9:
-            self.setIcon(QIcon(os.getcwd()+"/images/whiteMine.png"))
+            self.setIcon(QIcon(os.getcwd()+"/images/redMine.png"))
             self.setIconSize(QSize(20, 20))
         elif self.fieldType == 0:
             self.setIcon(QIcon(os.getcwd()+"/images/blank.png"))
@@ -37,6 +37,7 @@ class singleField(QToolButton):
         else:
             self.setIcon(QIcon(os.getcwd()+"/images/"+str(self.fieldType)+".png"))
             self.setIconSize(QSize(20, 20))
+        self.shown = True
         self.leftClickSignal.emit(self.x, self.y, self.fieldType)
         
     def rightButtonClicked(self):
@@ -94,5 +95,8 @@ class singleField(QToolButton):
                 self.setIconSize(QSize(20, 20))
             if 0 < self.fieldType and self.fieldType < 9:
                 self.setIcon(QIcon(os.getcwd()+"/images/"+str(self.fieldType)+".png"))
+                self.setIconSize(QSize(20, 20))
+            if self.fieldType == 9:
+                self.setIcon(QIcon(os.getcwd()+"/images/whiteMine.png"))
                 self.setIconSize(QSize(20, 20))
         self.shown = True
