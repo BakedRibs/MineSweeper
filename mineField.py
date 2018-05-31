@@ -11,6 +11,7 @@ class mineField(QWidget):
         self.rowCount = 16
         self.columnCount = 20
         self.mineCount = 20
+        self.remainMineCount = self.mineCount
         
         self.matrixInitiate()
         
@@ -26,7 +27,6 @@ class mineField(QWidget):
             for j in range(self.columnCount):
                 self.fieldMatrix[i][j].leftClickSignal.connect(self.leftButtonClicked)
                 self.fieldMatrix[i][j].rightClickSignal.connect(self.rightButtonClicked)
-                self.fieldMatrix[i][j].bothClickSignal.connect(self.bothButtonClicked)
         
     def leftButtonClicked(self, x, y, type):
         if type == 9:
@@ -60,10 +60,12 @@ class mineField(QWidget):
             self.shown[x][y] = 1
         
     def rightButtonClicked(self, x, y, type):
-        pass
-        
-    def bothButtonClicked(self, x, y, type):
-        pass
+        if type == 10 or type == 11:
+            if self.numberMatrix[x][y] == 9:
+                self.remainMineCount -= 1
+        elif type == 12:
+            if self.numberMatrix[x][y] == 9:
+                self.remainMineCount += 1
         
     def findAllConnectedBlank(self, x, y, blankMap):
         for i in [-1, 0, 1]:
