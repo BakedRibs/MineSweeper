@@ -1,5 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QApplication
+import os
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QApplication, QToolButton
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QSize
 from mineField import mineField
 
 class MineSweeper(QWidget):
@@ -8,22 +11,40 @@ class MineSweeper(QWidget):
         self.Init_UI()
         
     def Init_UI(self):
-        self.field = mineField()
-        mainLayout = QVBoxLayout()
-        mainLayout.addWidget(self.field)
+        self.initButton = QToolButton()
+        self.initButton.setIcon(QIcon(os.getcwd()+"/images/smile.png"))
+        self.initButton.setIconSize(QSize(32, 32))
         
-        self.setLayout(mainLayout)
+        controlBar = QHBoxLayout()
+        controlBar.addStretch()
+        controlBar.addWidget(self.initButton)
+        controlBar.addStretch()
+        
+        self.field = mineField()
+        
+        self.mainLayout = QVBoxLayout()
+        self.mainLayout.addLayout(controlBar)
+        self.mainLayout.addWidget(self.field)
+        
+        self.setLayout(self.mainLayout)
         
         self.field.clickMine.connect(self.mineClicked)
         self.field.finishClean.connect(self.cleaningFinished)
+        self.initButton.clicked.connect(self.newField)
         
         self.show()
         
     def mineClicked(self):
-        pass
+        self.field.setEnabled(False)
         
     def cleaningFinished(self):
-        pass
+        self.field.setEnabled(False)
+        
+    def newField(self):
+        self.mainLayout.removeWidget(self.field)
+        self.field = mineField()
+        self.mainLayout.addWidget(self.field)
+        self.setLayout(self.mainLayout)
         
 if __name__ == '__main__':
     app = QApplication(sys.argv)
