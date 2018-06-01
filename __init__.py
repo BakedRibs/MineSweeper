@@ -8,12 +8,22 @@ class MineSweeper(QWidget):
         self.Init_UI()
         
     def Init_UI(self):
-        field = mineField()
+        self.field = mineField()
         mainLayout = QVBoxLayout()
-        mainLayout.addWidget(field)
+        mainLayout.addWidget(self.field)
         
         self.setLayout(mainLayout)
+        
+        self.field.clickMine.connect(self.mineClicked)
+        self.field.finishClean.connect(self.cleaningFinished)
+        
         self.show()
+        
+    def mineClicked(self):
+        pass
+        
+    def cleaningFinished(self):
+        pass
         
 if __name__ == '__main__':
     app = QApplication(sys.argv)

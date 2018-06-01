@@ -1,8 +1,11 @@
 import random
 from PyQt5.QtWidgets import QWidget, QGridLayout
+from PyQt5.QtCore import pyqtSignal
 from singleField import singleField
 
 class mineField(QWidget):
+    clickMine = pyqtSignal()
+    finishClean = pyqtSignal()
     def __init__(self):
         super().__init__()
         self.Init_UI()
@@ -10,8 +13,10 @@ class mineField(QWidget):
     def Init_UI(self):
         self.rowCount = 16
         self.columnCount = 20
-        self.mineCount = 20
+        self.mineCount = 10
         self.remainMineCount = self.mineCount
+        self.clear = 0
+        self.clearGoal = self.rowCount * self.columnCount - self.mineCount
         
         self.matrixInitiate()
         
@@ -37,10 +42,12 @@ class mineField(QWidget):
                         if self.shown[i][j] == 0:
                             self.fieldMatrix[i][j].showButtonSelf()
                             self.shown[i][j] = 1
+            self.clickMine.emit()
         elif type == 0:
             if self.shown[x][y] == 0:
                 blankMap = []
                 self.shown[x][y] = 1
+                self.clear += 1
                 for i in range(self.rowCount):
                     blankMap.append([])
                     for j in range(self.columnCount):
@@ -56,8 +63,14 @@ class mineField(QWidget):
                                         if self.shown[i+p][j+q] == 0:
                                             self.fieldMatrix[i+p][j+q].showButtonSelf()
                                             self.shown[i+p][j+q] = 1
+                                            self.clear += 1
+                if self.clear == self.clearGoal:
+                    self.finishClean.emit()
         else:
             self.shown[x][y] = 1
+            self.clear += 1
+            if self.clear == self.clearGoal:
+                self.finishClean.emit()
         
     def rightButtonClicked(self, x, y, type):
         if type == 10 or type == 11:
@@ -87,7 +100,7 @@ class mineField(QWidget):
                 self.shown[i].append(0)
                 
         self.minePos = []
-        while len(self.minePos) < 20:
+        while len(self.minePos) < self.mineCount:
             newMine = (random.randint(0, self.rowCount-1), random.randint(0, self.columnCount-1))
             if newMine not in self.minePos:
                 self.minePos.append(newMine)
