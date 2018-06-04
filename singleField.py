@@ -34,7 +34,7 @@ class singleField(QToolButton):
                     self.setIconSize(QSize(20, 20))
                 else:
                     self.setIcon(QIcon(os.getcwd()+"/images/"+str(self.fieldType)+".png"))
-                    self.setIconSize(QSize(20, 20))
+                    self.setIconSize(QSize(16, 16))
                 self.shown = True
                 self.leftClickSignal.emit(self.x, self.y, self.fieldType)
         

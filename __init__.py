@@ -36,15 +36,21 @@ class MineSweeper(QWidget):
         
     def mineClicked(self):
         self.field.setEnabled(False)
+        self.initButton.setIcon(QIcon(os.getcwd()+"/images/cry.png"))
+        self.initButton.setIconSize(QSize(32, 32))
         
     def cleaningFinished(self):
         self.field.setEnabled(False)
+        self.initButton.setIcon(QIcon(os.getcwd()+"/images/smile.png"))
+        self.initButton.setIconSize(QSize(32, 32))
         
     def newField(self):
         self.mainLayout.removeWidget(self.field)
         self.field = mineField()
         self.mainLayout.addWidget(self.field)
         self.setLayout(self.mainLayout)
+        self.initButton.setIcon(QIcon(os.getcwd()+"/images/smile.png"))
+        self.initButton.setIconSize(QSize(32, 32))
         
 if __name__ == '__main__':
     app = QApplication(sys.argv)
