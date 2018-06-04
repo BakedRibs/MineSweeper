@@ -45,10 +45,8 @@ class MineSweeper(QWidget):
         self.initButton.setIconSize(QSize(32, 32))
         
     def newField(self):
-        self.mainLayout.removeWidget(self.field)
-        self.field = mineField()
-        self.mainLayout.addWidget(self.field)
-        self.setLayout(self.mainLayout)
+        python = sys.executable
+        os.execl(python, python, * sys.argv)
         self.initButton.setIcon(QIcon(os.getcwd()+"/images/smile.png"))
         self.initButton.setIconSize(QSize(32, 32))
         
