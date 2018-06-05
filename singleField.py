@@ -43,48 +43,54 @@ class singleField(QToolButton):
                 self.leftClickSignal.emit(self.x, self.y, self.fieldType)                                       #发送信号，将坐标和类型发送至大区域，由大区域继续进行处理
         
     def rightButtonClicked(self):
-        if self.shown == False:
-            if self.fieldStatus == 'cover':
+        #在按钮上点击右键，触发事件
+        if self.shown == False:                                                                                     #若本区域未被点开
+            if self.fieldStatus == 'cover':                                                                      #若为未定状态，则变为标注旗子状态
                 self.setIcon(QIcon(os.getcwd()+"/images/flag.png"))
                 self.setIconSize(QSize(20, 20))
-                self.fieldStatus = 'flag'
-                self.rightClickSignal.emit(self.x, self.y, 10)
-            elif self.fieldStatus == 'flag':
+                self.fieldStatus = 'flag'                                                                          #修改为标注旗子状态
+                self.rightClickSignal.emit(self.x, self.y, 10)                                                   #发送信号，将坐标和类型发送至大区域，对大区域的状态进行更新
+            elif self.fieldStatus == 'flag':                                                                     #若为标注旗子状态，则变为标注问号状态
                 self.setIcon(QIcon(os.getcwd()+"/images/question.png"))
                 self.setIconSize(QSize(20, 20))
-                self.fieldStatus = 'question'
-                self.rightClickSignal.emit(self.x, self.y, 11)
-            elif self.fieldStatus == 'question':
+                self.fieldStatus = 'question'                                                                   #修改为标注问号状态
+                self.rightClickSignal.emit(self.x, self.y, 11)                                                   #发送信号，将坐标和类型发送至大区域，对大区域的状态进行更新
+            elif self.fieldStatus == 'question':                                                              #若为标注问号状态，则变为未定状态
                 self.setIcon(QIcon(os.getcwd()+"/images/cover.png"))
                 self.setIconSize(QSize(20, 20))
-                self.fieldStatus = 'cover'
-                self.rightClickSignal.emit(self.x, self.y, 12)
+                self.fieldStatus = 'cover'                                                                       #修改为未定状态
+                self.rightClickSignal.emit(self.x, self.y, 12)                                                  #发送信号，将坐标和类型发送至大区域，对大区域的状态进行更新
         
     def mouseReleaseEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.leftButtonClicked()
-        if event.button() == Qt.RightButton:
-            self.rightButtonClicked()
+        #修改鼠标松开事件
+        if event.button() == Qt.LeftButton:            #若为左键松开
+            self.leftButtonClicked()                          #触发左键点击事件
+        if event.button() == Qt.RightButton:          #若为右键松开
+            self.rightButtonClicked()                        #触发右键点击事件
             
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.showButtonPressed()
+        #修改鼠标按下事件
+        if event.button() == Qt.LeftButton:           #若为左键按下
+            self.showButtonPressed()                      #触发左键按下事件
                 
     def showButtonSelf(self):
-        if self.shown == False:
-            if self.fieldType == 0:
+        #当点击空白区域时，在大区域中，需要展开并显示所有和此单元格相邻的空白区域
+        #当点击雷区时，在大区域中，需要展开并显示所有雷区
+        if self.shown == False:                                                                                   #若区域未点开
+            if self.fieldType == 0:                                                                                #若本区域为空，且周围无雷
                 self.setIcon(QIcon(os.getcwd()+"/images/blank.png"))
                 self.setIconSize(QSize(20, 20))
-            if 0 < self.fieldType and self.fieldType < 9:
+            if 0 < self.fieldType and self.fieldType < 9:                                                   #若本区域为空，且周围有雷
                 self.setIcon(QIcon(os.getcwd()+"/images/"+str(self.fieldType)+".png"))
                 self.setIconSize(QSize(20, 20))
-            if self.fieldType == 9:
+            if self.fieldType == 9:                                                                               #若本区域为雷
                 self.setIcon(QIcon(os.getcwd()+"/images/whiteMine.png"))
                 self.setIconSize(QSize(20, 20))
-        self.shown = True
+        self.shown = True                                                                                        #本区域已被展开
         
     def showButtonPressed(self):
-        if self.shown == False:
-            if self.fieldStatus == 'cover':
-                self.setIcon(QIcon(os.getcwd()+"/images/blank.png"))
+        #当小区域被鼠标左键按下时，调用本函数
+        if self.shown == False:                                                           #若区域未点开
+            if self.fieldStatus == 'cover':                                             #若小区域为未定状态
+                self.setIcon(QIcon(os.getcwd()+"/images/blank.png"))   #替换图片，显示小区域被按下
                 self.setIconSize(QSize(20, 20))
