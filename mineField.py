@@ -4,47 +4,49 @@ from PyQt5.QtCore import pyqtSignal
 from singleField import singleField
 
 class mineField(QWidget):
-    clickMine = pyqtSignal()
-    finishClean = pyqtSignal()
+    clickMine = pyqtSignal()                                                                                 #触雷事件
+    finishClean = pyqtSignal()                                                                               #区域全部清空事件
     def __init__(self):
         super().__init__()
         self.Init_UI()
         
     def Init_UI(self):
-        self.rowCount = 16
-        self.columnCount = 20
-        self.mineCount = 10
-        self.remainMineCount = self.mineCount
-        self.clear = 0
-        self.clearGoal = self.rowCount * self.columnCount - self.mineCount
+        #对界面和参数进行初始化
+        self.rowCount = 16                                                                                    #行数
+        self.columnCount = 20                                                                               #列数
+        self.mineCount = 10                                                                                  #总雷数
+        self.remainMineCount = self.mineCount                                                         #剩余雷数
+        self.clear = 0                                                                                           #已探出的非雷区域
+        self.clearGoal = self.rowCount * self.columnCount - self.mineCount                   #剩余未探出的非雷区域
         
-        self.matrixInitiate()
+        self.matrixInitiate()                                                                                   #对雷区、周围数字和按钮等进行初始化
         
         mainLayout = QGridLayout()
         for i in range(self.rowCount):
             for j in range(self.columnCount):
-                mainLayout.addWidget(self.fieldMatrix[i][j], i, j)
+                mainLayout.addWidget(self.fieldMatrix[i][j], i, j)                                     #QGridLayout布局
         mainLayout.setSpacing(0)
         
         self.setLayout(mainLayout)
         
         for i in range(self.rowCount):
             for j in range(self.columnCount):
-                self.fieldMatrix[i][j].leftClickSignal.connect(self.leftButtonClicked)
-                self.fieldMatrix[i][j].rightClickSignal.connect(self.rightButtonClicked)
+                self.fieldMatrix[i][j].leftClickSignal.connect(self.leftButtonClicked)             #左键点击处理函数
+                self.fieldMatrix[i][j].rightClickSignal.connect(self.rightButtonClicked)          #右键点击处理函数
         
     def leftButtonClicked(self, x, y, type):
-        if type == 9:
+        #左键点击处理函数
+        if type == 9:                                                                                          #左键点击雷区
             self.shown[x][y] = 1
             for i in range(self.rowCount):
                 for j in range(self.columnCount):
                     if self.numberMatrix[i][j] == 9:
-                        if self.shown[i][j] == 0:
-                            self.fieldMatrix[i][j].showButtonSelf()
-                            self.shown[i][j] = 1
-            self.clickMine.emit()
-        elif type == 0:
-            if self.shown[x][y] == 0:
+                        if self.shown[i][j] == 0:                                                            #若此区域未被显示
+                            self.fieldMatrix[i][j].showButtonSelf()                                      #显示此区域（中的雷）
+                            self.shown[i][j] = 1                                                             #此区域已被显示
+            self.clickMine.emit()                                                                            #发出触雷事件
+        elif type == 0:                                                                                      #左键点击空白区
+            if self.shown[x][y] == 0:                                                                     #若此区域未被显示
                 blankMap = []
                 self.shown[x][y] = 1
                 self.clear += 1
