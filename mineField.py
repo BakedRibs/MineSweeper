@@ -47,7 +47,7 @@ class mineField(QWidget):
             self.clickMine.emit()                                                                            #发出触雷事件
         elif type == 0:                                                                                      #左键点击空白区
             if self.shown[x][y] == 0:                                                                     #若此区域未被显示
-                blankMap = []
+                blankMap = []                                                                                #找出并保存区域中所有空区域
                 self.shown[x][y] = 1
                 self.clear += 1
                 for i in range(self.rowCount):
