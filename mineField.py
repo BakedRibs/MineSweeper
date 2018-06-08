@@ -48,26 +48,26 @@ class mineField(QWidget):
         elif type == 0:                                                                                      #左键点击空白区
             if self.shown[x][y] == 0:                                                                     #若此区域未被显示
                 blankMap = []                                                                                #找出并保存区域中所有空区域
-                self.shown[x][y] = 1
-                self.clear += 1
+                self.shown[x][y] = 1                                                                       #本区域已被显示
+                self.clear += 1                                                                              #已经点开的小区域总数
                 for i in range(self.rowCount):
                     blankMap.append([])
                     for j in range(self.columnCount):
                         blankMap[i].append(0)
-                blankMap[x][y] = 1
-                self.findAllConnectedBlank(x, y, blankMap)
+                blankMap[x][y] = 1                                                                        #本区域在blankMap中标记
+                self.findAllConnectedBlank(x, y, blankMap)                                         #找到所有和本区域相连的空区域
                 for i in range(self.rowCount):
                     for j in range(self.columnCount):
-                        if blankMap[i][j] == 1:
+                        if blankMap[i][j] == 1:                                                            #若当前区域为空区域
                             for p in [-1, 0, 1]:
-                                for q in [-1, 0, 1]:
+                                for q in [-1, 0, 1]:                                                         #对周围单元格进行判断
                                     if 0 <= i+p and i+p < self.rowCount and 0 <= j+q and j+q < self.columnCount:
-                                        if self.shown[i+p][j+q] == 0:
-                                            self.fieldMatrix[i+p][j+q].showButtonSelf()
-                                            self.shown[i+p][j+q] = 1
-                                            self.clear += 1
-                if self.clear == self.clearGoal:
-                    self.finishClean.emit()
+                                        if self.shown[i+p][j+q] == 0:                                  #若未被显示
+                                            self.fieldMatrix[i+p][j+q].showButtonSelf()            #显示此区域
+                                            self.shown[i+p][j+q] = 1                                    #区域已经被显示
+                                            self.clear += 1                                                 #显示区域数量+1
+                if self.clear == self.clearGoal:                                                         #若经过此操作，所有非雷区域已经被展开
+                    self.finishClean.emit()                                                                #触发扫雷完成信号
         else:
             self.shown[x][y] = 1
             self.clear += 1
